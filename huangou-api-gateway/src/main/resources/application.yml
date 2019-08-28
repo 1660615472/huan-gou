@@ -1,0 +1,53 @@
+server:
+  port: ${huangou-api-gateway.port}
+spring:
+  application:
+    name: huangou-api-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:${huangou-registry.port}/eureka
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+zuul:
+  prefix: /api # 添加路由前缀
+  routes:
+    huangou-item-service: /item/** # 路由到商品微服务
+    search-service:  /search/** #路由到搜索微服务
+    user-service: /user/**
+    auth-service: /auth/**
+  add-host-header: true #允许网关携带头信息
+  sensitive-headers: #覆盖默认敏感头信息
+hg:
+  jwt:
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: HUAN_GOU
+  filter: #拦截白名单，一下路径不需要被拦截
+    allowPaths: #网关不需要拦截的路径
+      - /api/auth  #以"-"开头代表集合
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item
+
+
+
+  OkToRetryOnAllOperations: true # 是否对所有操作重试
+  MaxAutoRetriesNextServer: 1 # 同一服务不同实例的重试次数
+  MaxAutoRetries: 1 # 同一实例的重试次数
+
+#熔断机制超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMillisecond: 7000 # 熔断超时时长：7000
+

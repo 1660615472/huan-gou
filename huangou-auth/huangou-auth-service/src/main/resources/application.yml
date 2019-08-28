@@ -1,0 +1,21 @@
+server:
+  port: 8096
+spring:
+  application:
+    name: auth-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8010/eureka
+    registry-fetch-interval-seconds: 10 #拉起微服务时间,调用远程服务的时候配置
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+
+hg:
+  jwt:
+    secret: leyou@Login(Auth}*^31)&heiMa% # 登录校验的密钥
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    priKeyPath: C:\\tmp\\rsa\\rsa.pri # 私钥地址
+    expire: 30 # 过期时间,单位分钟
+    cookieName: HUAN_GOU

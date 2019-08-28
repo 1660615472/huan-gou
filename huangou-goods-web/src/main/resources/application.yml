@@ -1,0 +1,28 @@
+server:
+  port: ${huangou-goods-service}
+spring:
+  application:
+    name: huangou-goods-service
+  thymeleaf:
+    cache: false
+  rabbitmq:
+    host: 127.0.0.1
+    virtual-host: /huangou
+    username: huangou
+    password: huangou
+
+
+  # 多个接口上的@FeignClient(“相同服务名”)会报错，overriding is disabled。
+# 设置 为true ,即 允许 同名
+  main:
+   allow-bean-definition-overriding: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:${huangou-registry.port}/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}.${server.port}

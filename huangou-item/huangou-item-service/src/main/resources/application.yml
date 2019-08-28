@@ -1,0 +1,35 @@
+server:
+  port: ${huangou-item-service.port}
+spring:
+  application:
+    name: huangou-item-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/huangou?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root12345
+    password: 12345
+  rabbitmq:
+    host: 127.0.0.1
+    virtual-host: /huangou
+    username: huangou
+    password: huangou
+    template:
+      exchange: huangou.item.exchange #配置默认交换机
+
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:${huangou-registry.port}/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+
+

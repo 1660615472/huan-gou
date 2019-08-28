@@ -1,0 +1,33 @@
+server:
+  port: ${huangou-user-service.port}
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/huangou?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root12345
+    password: 12345
+    driver-class-name: com.mysql.jdbc.Driver
+
+  redis:
+    host: 192.168.64.129
+  rabbitmq:
+    username: huangou
+    password: huangou
+    virtual-host: /huangou
+    host: 127.0.0.1
+
+eureka:
+  client:
+    service-url:
+     defaultZone: http://127.0.0.1:${huangou-registry.port}/eureka
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${eureka.instance.ip-address}.${server.port}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+
+
+mybatis:
+  type-aliases-package: com.huangou.user.pojo #让mybaits自动扫描pojo的包路径

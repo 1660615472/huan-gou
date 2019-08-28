@@ -1,0 +1,28 @@
+server:
+  port: ${sms-service.port}
+spring:
+  application:
+    name: sms-service
+  rabbitmq:
+    virtual-host: /huangou
+    username: huangou
+    password: huangou
+    host: 127.0.0.1
+  redis:
+    host: 192.168.64.129
+hg:
+  sms:
+    accessKeyId: LTAIGkmtSHOsSID2
+    accessKeySecret: tLchDJrKtcPHK4fqx2NA81P4dlcexw
+    signName: 欢购
+    verifyCodeTemplate: SMS_172603105
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:${huangou-registry.port}/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}

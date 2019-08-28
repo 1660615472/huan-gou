@@ -1,0 +1,28 @@
+server:
+  port: ${search-service}
+spring:
+  application:
+    name: search-service
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.64.129:9300
+  jackson: #属性排除
+    default-property-inclusion: non_null
+  rabbitmq:
+    host: 127.0.0.1
+    virtual-host: /huangou
+    username: huangou
+    password: huangou
+  main:
+    allow-bean-definition-overriding: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:${huangou-registry.port}/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
